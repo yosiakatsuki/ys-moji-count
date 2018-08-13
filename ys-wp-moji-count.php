@@ -64,7 +64,7 @@ function ywmc_manage_posts_custom_column( $column, $post_id ) {
 	}
 }
 
-add_action( 'manage_posts_custom_column', 'ywmc_manage_posts_custom_column', 10, 2 );
+//add_action( 'manage_posts_custom_column', 'ywmc_manage_posts_custom_column', 10, 2 );
 
 
 /**
@@ -100,5 +100,8 @@ add_action( 'transition_post_status', 'ywmc_transition_post_status', 10, 3 );
  * @return int
  */
 function ywmc_moji_count( $post_content ) {
-	return mb_strlen( str_replace( array( "\r\n", "\r", "\n" ), '', strip_tags( apply_filters( 'the_content', $post_content ) ) ) );
+	$post_content = strip_shortcodes( $post_content );
+	$post_content = wp_strip_all_tags( $post_content, true );
+	$post_content = str_replace( array( "\r\n", "\r", "\n" ), '', $post_content );
+	return mb_strlen( $post_content );
 }
