@@ -7,7 +7,7 @@
  * Author URI:      https://yosiakatsuki.net/
  * Text Domain:     ys-wp-moji-count
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.0.1
  *
  * @package         Ys WP Moji Count
  */
