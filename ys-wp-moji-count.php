@@ -53,18 +53,18 @@ add_filter( 'manage_posts_columns', 'ywmc_manage_posts_columns' );
 function ywmc_manage_posts_custom_column( $column, $post_id ) {
 	global $post;
 	if ( 'ywmc_moji_count' == $column ) {
-		$meta_value = get_post_meta( $post_id, YWMC_META_KEY, true );
-		if ( ! empty( $meta_value ) && is_numeric( $meta_value ) ) {
-			$moji_cnt = (int) $meta_value;
-		} else {
-			$moji_cnt = ywmc_moji_count( $post->post_content );
-			update_post_meta( $post_id, YWMC_META_KEY, $moji_cnt );
-		}
+//		$meta_value = get_post_meta( $post_id, YWMC_META_KEY, true );
+//		if ( ! empty( $meta_value ) && is_numeric( $meta_value ) ) {
+//			$moji_cnt = (int) $meta_value;
+//		} else {
+//			update_post_meta( $post_id, YWMC_META_KEY, $moji_cnt );
+//		}
+		$moji_cnt = ywmc_moji_count( $post->post_content );
 		echo number_format( $moji_cnt );
 	}
 }
 
-//add_action( 'manage_posts_custom_column', 'ywmc_manage_posts_custom_column', 10, 2 );
+add_action( 'manage_posts_custom_column', 'ywmc_manage_posts_custom_column', 10, 2 );
 
 
 /**
@@ -101,7 +101,10 @@ add_action( 'transition_post_status', 'ywmc_transition_post_status', 10, 3 );
  */
 function ywmc_moji_count( $post_content ) {
 	$post_content = strip_shortcodes( $post_content );
-	$post_content = wp_strip_all_tags( $post_content, true );
 	$post_content = str_replace( array( "\r\n", "\r", "\n" ), '', $post_content );
+	$post_content = preg_replace( '/<!--[\s\S]*?-->/', '', $post_content );
+	$post_content = preg_replace( '/&\S+?;/', '_', $post_content );
+	$post_content = wp_strip_all_tags( $post_content, false );
+
 	return mb_strlen( $post_content );
 }
