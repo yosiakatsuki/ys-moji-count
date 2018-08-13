@@ -7,7 +7,7 @@
  * Author URI:      https://yosiakatsuki.net/
  * Text Domain:     ys-wp-moji-count
  * Domain Path:     /languages
- * Version:         1.0.1
+ * Version:         1.0.2
  *
  * @package         Ys WP Moji Count
  */
@@ -53,13 +53,13 @@ add_filter( 'manage_posts_columns', 'ywmc_manage_posts_columns' );
 function ywmc_manage_posts_custom_column( $column, $post_id ) {
 	global $post;
 	if ( 'ywmc_moji_count' == $column ) {
-//		$meta_value = get_post_meta( $post_id, YWMC_META_KEY, true );
-//		if ( ! empty( $meta_value ) && is_numeric( $meta_value ) ) {
-//			$moji_cnt = (int) $meta_value;
-//		} else {
-//			update_post_meta( $post_id, YWMC_META_KEY, $moji_cnt );
-//		}
-		$moji_cnt = ywmc_moji_count( $post->post_content );
+		$meta_value = get_post_meta( $post_id, YWMC_META_KEY, true );
+		if ( ! empty( $meta_value ) && is_numeric( $meta_value ) ) {
+			$moji_cnt = (int) $meta_value;
+		} else {
+			$moji_cnt = ywmc_moji_count( $post->post_content );
+			update_post_meta( $post_id, YWMC_META_KEY, $moji_cnt );
+		}
 		echo number_format( $moji_cnt );
 	}
 }
